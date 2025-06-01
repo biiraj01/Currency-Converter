@@ -1,1 +1,1 @@
-This is a simple project used to convert obne currency to another using html,css and javascript.
+This is a simple project used to convert one currency to another using html,css and javascript.
