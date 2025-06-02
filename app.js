@@ -20,3 +20,4 @@ const updateFlag = (element)=>{
     let img = element.parentElement.querySelector("img");
     img.src = newSrc;
 }
+
