@@ -1,4 +1,5 @@
-const BASE_URL = "https://api.frankfurter.app";
+const BASE_URL = "https://api.currencyapi.com/v3/latest?apikey=cur_live_b436wPPLDnVGDu5ykoRmJEinFIvB8DZVaYkIGp5c&base";
+
 const dropdowns = document.querySelectorAll(".dropdown select");
 const btn = document.querySelector("form button");
 const fromCurr = document.querySelector(".from select");
@@ -30,17 +31,13 @@ const updateExchangeRate = async () => {
     amtVal = 1;
     amount.value = "1";
   }
- const URL = `${BASE_URL}/convert?from=${fromCurr.value}&to=${toCurr.value}&amount=${amtVal}`;
-  try {
-    let response = await fetch(URL);
-    let data = await response.json();
-    let finalAmount = data.result;
+  const URL = `${BASE_URL}_${fromCurr.value}&currencies=${toCurr.value}`;
+  let response = await fetch(URL);
+  let data = await response.json();
+  let rate = data[toCurr.value.toLowerCase()];
 
-    msg.innerText = `${amtVal} ${fromCurr.value} = ${finalAmount.toFixed(2)} ${toCurr.value}`;
-  } catch (error) {
-    msg.innerText = "Failed to fetch exchange rate.";
-    console.error("Error fetching exchange rate:", error);
-  }
+  let finalAmount = amtVal * rate;
+  msg.innerText = `${amtVal} ${fromCurr.value} = ${finalAmount} ${toCurr.value}`;
 };
 
 const updateFlag = (element) => {
@@ -59,3 +56,21 @@ btn.addEventListener("click", (evt) => {
 window.addEventListener("load", () => {
   updateExchangeRate();
 });
+
+for (let select of dropdowns) {
+  for (currCode in countryList) {
+    let newOption = document.createElement("option");
+    newOption.innerText = currCode;
+    newOption.value = currCode;
+    if (select.name === "from" && currCode === "USD") {
+      newOption.selected = "selected";
+    } else if (select.name === "to" && currCode === "INR") {
+      newOption.selected = "selected";
+    }
+    select.append(newOption);
+  }
+
+  select.addEventListener("change", (evt) => {
+    updateFlag(evt.target);
+  });
+}
