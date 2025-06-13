@@ -1,1 +1,1 @@
-
+This is a responsive currency converter web application built using HTML, CSS, and JavaScript. The app allows users to convert any amount from one currency to another in real-time using live exchange rates fetched from a public currency API.
